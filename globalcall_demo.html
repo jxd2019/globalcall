@@ -1,10 +1,134 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>GlobalCall — International Calling</title>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GlobalCall</title>
 <style>
-:root{--bg:#0b1424;--card:#1b2b40;--panel:#2b4057;--cyan:#00b8ff;--green:#00c853;--text:#f6f8fb;--muted:#9db0c5}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;display:flex;justify-content:center;align-items:center;padding:24px}.container{width:min(100%,480px);background:var(--card);border-radius:28px;padding:30px 24px;box-shadow:0 20px 60px #0005;text-align:center}.brand{font-size:clamp(30px,8vw,44px);font-weight:800;color:var(--cyan);margin:10px 0}.subtitle{font-size:18px;margin:0 0 26px}.balance{background:var(--panel);padding:18px;border-radius:16px;font-size:20px;margin-bottom:22px}input{width:100%;padding:19px 16px;border:0;border-radius:15px;font-size:18px;outline:2px solid transparent;margin:0 0 14px}input:focus{outline-color:var(--cyan)}button{width:100%;border:0;border-radius:15px;padding:18px;font-size:20px;color:white;cursor:pointer;margin:0 0 14px;font-weight:700}.call{background:var(--green)}.recharge{background:#009e43}.secondary{background:#30455c}.status{min-height:24px;color:#d7e4f4;margin:8px 0 14px}.footer{color:var(--muted);margin-top:25px}.modal{display:none;position:fixed;inset:0;background:#0009;align-items:center;justify-content:center;padding:20px}.modal-box{background:var(--card);padding:25px;border-radius:22px;width:min(100%,380px);text-align:left}.modal-box h2{margin-top:0}.modal-box p{color:var(--muted);line-height:1.5}.modal-box button{margin-top:12px}@media(max-width:420px){body{padding:14px}.container{padding:24px 18px}}
-</style></head><body><main class="container"><div class="brand">🌍 GlobalCall</div><p class="subtitle">International Calling Service</p><div class="balance">Balance: <span id="balance">$0.00</span></div><input id="phone" type="tel" autocomplete="tel" placeholder="Enter country code + number" aria-label="Phone number"><button class="call" id="callBtn">📞 Call Now</button><button class="recharge" id="rechargeBtn">💳 Recharge Balance</button><div class="status" id="status" role="status"></div><p class="footer">Secure International Calling</p></main><div class="modal" id="modal"><div class="modal-box"><h2 id="modalTitle">GlobalCall</h2><p id="modalText"></p><button class="secondary" id="closeModal">Close</button></div></div>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#0b1424;color:#fff;
+ font-family:Arial,sans-serif;min-height:100vh;
+ display:flex;justify-content:center;padding:20px;
+}
+.app{
+ width:100%;max-width:420px;background:#121e32;
+ border-radius:24px;padding:24px;
+ border:1px solid #26344c;
+}
+.brand{font-size:28px;font-weight:bold;color:#00b8ff}
+.subtitle{color:#94a3b8;margin-top:6px}
+.balance{
+ margin:24px 0;padding:18px;background:#1b2b40;
+ border-radius:16px;display:flex;
+ justify-content:space-between;align-items:center;
+}
+.balance strong{font-size:22px;color:#00c853}
+button{cursor:pointer}
+.recharge{
+ background:#00b8ff;color:#07111e;border:0;
+ border-radius:10px;padding:12px 15px;font-weight:bold;
+}
+input{
+ width:100%;background:#0b1424;color:#fff;
+ border:1px solid #334155;border-radius:14px;
+ padding:18px;font-size:23px;text-align:center;
+ margin:15px 0;outline:none;
+}
+.pad{
+ display:grid;grid-template-columns:repeat(3,1fr);
+ gap:12px;margin-top:15px;
+}
+.key{
+ height:65px;border-radius:16px;border:1px solid #334155;
+ background:#1b2b40;color:white;font-size:25px;
+}
+.key:active{background:#00b8ff;color:#000}
+.actions{display:flex;gap:15px;margin-top:24px}
+.call,.end{
+ flex:1;border:0;padding:17px;border-radius:14px;
+ font-size:18px;font-weight:bold;color:white;
+}
+.call{background:#00c853}
+.end{background:#ef4444}
+.status{
+ text-align:center;margin-top:20px;color:#94a3b8;
+ min-height:24px;
+}
+.footer{
+ margin-top:25px;text-align:center;color:#64748b;
+ font-size:12px;
+}
+</style>
+</head>
+<body>
+<div class="app">
+ <div class="brand">🌐 GlobalCall</div>
+ <div class="subtitle">International Calling</div>
+
+ <div class="balance">
+  <div>
+   <small>Demo Balance</small>
+   <br><strong>$0.00</strong>
+  </div>
+  <button class="recharge" onclick="recharge()">Recharge</button>
+ </div>
+
+ <input id="phone" type="tel" placeholder="+1 234 567 8900"
+ autocomplete="tel" aria-label="Phone number">
+
+ <div class="pad">
+  <button class="key" onclick="add('1')">1</button>
+  <button class="key" onclick="add('2')">2</button>
+  <button class="key" onclick="add('3')">3</button>
+  <button class="key" onclick="add('4')">4</button>
+  <button class="key" onclick="add('5')">5</button>
+  <button class="key" onclick="add('6')">6</button>
+  <button class="key" onclick="add('7')">7</button>
+  <button class="key" onclick="add('8')">8</button>
+  <button class="key" onclick="add('9')">9</button>
+  <button class="key" onclick="add('*')">*</button>
+  <button class="key" onclick="add('0')">0</button>
+  <button class="key" onclick="add('#')">#</button>
+ </div>
+
+ <div class="actions">
+  <button class="call" onclick="startCall()">📞 Call</button>
+  <button class="end" onclick="endCall()">✖ End</button>
+ </div>
+
+ <div class="status" id="status">Ready to dial</div>
+
+ <div class="footer">
+  GlobalCall • International Calling Demo
+ </div>
+</div>
+
 <script>
-const modal=document.getElementById('modal');function showModal(title,msg){document.getElementById('modalTitle').textContent=title;document.getElementById('modalText').textContent=msg;modal.style.display='flex'}document.getElementById('closeModal').onclick=()=>modal.style.display='none';modal.addEventListener('click',e=>{if(e.target===modal)modal.style.display='none'});
-document.getElementById('callBtn').onclick=()=>{const num=document.getElementById('phone').value.trim();if(!num){document.getElementById('status').textContent='Please enter a phone number including country code.';return}if(!/^\+?[0-9\s\-()]{7,20}$/.test(num)){document.getElementById('status').textContent='Please check the number format.';return}showModal('Calling is not connected yet','Your number is ready, but live calls require a secure server connected to a voice provider (such as Twilio). This demo does not place a call or charge you.')};
-document.getElementById('rechargeBtn').onclick=()=>showModal('Recharge','Payments are not connected yet. A secure payment gateway and server-side balance ledger must be configured before accepting money.');
-</script></body></html>
+const phone=document.getElementById('phone');
+const statusBox=document.getElementById('status');
+
+function add(n){
+ phone.value+=n;
+}
+
+function startCall(){
+ const n=phone.value.trim();
+ if(!n){
+  statusBox.textContent="Enter a phone number first";
+  return;
+ }
+ statusBox.textContent="Call demo: "+n;
+ alert("Demo dialer only. VoIP provider connection is required to make real calls.");
+}
+
+function endCall(){
+ statusBox.textContent="Call ended";
+}
+
+function recharge(){
+ alert("Recharge/payment system is not connected yet.");
+}
+</script>
+</body>
+</html>
